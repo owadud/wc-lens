@@ -39,7 +39,7 @@ class WpWordCountPlugin{
         add_settings_section('wcp_first_section',null,null,'word-count-settings-page');
         
         add_settings_field('wcp_location','Display Location',array($this,'locationHtml'),'word-count-settings-page','wcp_first_section');
-        register_setting('wordcountplugin','wcp_location',array('sanitize_callback'=>'sanitize_text_field','default'=>'0'));
+        register_setting('wordcountplugin','wcp_location',array('sanitize_callback'=>array($this,'sanitizeValue'),'default'=>'0'));
         //headline
         add_settings_field('wcp_headline','Headline Text',array($this,'headlineHtml'),'word-count-settings-page','wcp_first_section');
         register_setting('wordcountplugin','wcp_headline',array('sanitize_callback'=>'sanitize_text_field','default'=>'post statistics'));
@@ -56,6 +56,14 @@ class WpWordCountPlugin{
          add_settings_field('wcp_read','Read Time',array($this,'readHtml'),'word-count-settings-page','wcp_first_section');
         register_setting('wordcountplugin','wcp_read',array('sanitize_callback'=>'sanitize_text_field','default'=>'1'));
     }
+    function sanitizeValue($input){
+        if($input != '0' AND $input != '1'){
+            add_settings_error('wcp_location','wcp_location_error','Wrong Input, try again');
+            return get_option('wcp_location');
+        }
+        return $input;
+    }
+
     function readHtml(){?>
     <input type="checkbox" name="wcp_read" value="1" <?php echo checked(get_option(('wcp_read')),'1')?>>
     <?php
