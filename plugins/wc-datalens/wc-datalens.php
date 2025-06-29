@@ -32,9 +32,33 @@ class WpWordCountPlugin{
     function __construct(){
         add_action('admin_menu',array($this,'settingsMenu'));
         add_action('admin_init',array($this,'settings'));
+        add_filter('the_content',array($this,'ifwrap'));
         
 
     }
+    function ifwrap($content){
+        if(is_main_query() AND is_single() AND (
+            get_option('wcp_word','1') OR get_option('wcp_char','1') OR get_option('wcp_word','1')
+            )){
+            return $this->createHTML($content);
+        }
+        return $content;
+    }
+
+    function createHTML($content){
+
+        $html = '<h3>' . get_option('wcp_headline','post statistics') .'</h3>';
+
+        if(get_option('wcp_location','0') == '0'){
+            return $html . $content;
+        }
+        return $content . $html;
+
+    }
+
+
+
+
     function settings(){
         add_settings_section('wcp_first_section',null,null,'word-count-settings-page');
         
