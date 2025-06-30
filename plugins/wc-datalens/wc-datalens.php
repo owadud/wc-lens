@@ -47,8 +47,21 @@ class WpWordCountPlugin{
 
     function createHTML($content){
 
-        $html = '<h3>' . get_option('wcp_headline','post statistics') .'</h3>';
+        $html = '<h3>' . esc_html(get_option('wcp_headline','post statistics')) .'</h3><p>';
 
+        if(get_option('wcp_word','1') OR get_option('wcp_char','1')){
+            $wordcount = str_word_count(strip_tags($content));
+        }
+        if(get_option('wcp_word','1')){
+            $html .= 'Total word' . $wordcount . 'words';
+        }
+        if(get_option('wcp_char','1')){
+            $html .= 'Total char' . strlen(strip_tags($content)) .'char';
+        }
+        if(get_option('wcp_read','1')){
+            $html .= 'Reading' . round($wordcount/225) .'min(s)';
+        }
+             $html .= '</p>';
         if(get_option('wcp_location','0') == '0'){
             return $html . $content;
         }
