@@ -12,7 +12,7 @@
  * License:           GPL v2 or later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Update URI:        https://example.com/my-plugin/
- * Text Domain:       wc-datalens
+ * Text Domain:       wcdatalens
  * Domain Path:       /languages
  
  */
@@ -33,9 +33,14 @@ class WpWordCountPlugin{
         add_action('admin_menu',array($this,'settingsMenu'));
         add_action('admin_init',array($this,'settings'));
         add_filter('the_content',array($this,'ifwrap'));
+        add_action('init',array($this,'languages'));
         
 
     }
+    function languages(){
+        load_plugin_textdomain('wcdatalens',false,dirname(plugin_basename(__FILE__)).'/languages');
+    }
+
     function ifwrap($content){
         if(is_main_query() AND is_single() AND (
             get_option('wcp_word','1') OR get_option('wcp_char','1') OR get_option('wcp_word','1')
@@ -53,15 +58,15 @@ class WpWordCountPlugin{
             $wordcount = str_word_count(strip_tags($content));
         }
         if(get_option('wcp_word','1')){
-            $html .= 'Total word' . $wordcount . 'words';
+            $html .= esc_html__('Total word','wcdatalens') . ' ' . $wordcount . __(' words','wwcdatalens').  '</br>';
         }
         if(get_option('wcp_char','1')){
-            $html .= 'Total char' . strlen(strip_tags($content)) .'char';
+            $html .= 'Total char ' . strlen(strip_tags($content)) .' char</br>';
         }
         if(get_option('wcp_read','1')){
-            $html .= 'Reading' . round($wordcount/225) .'min(s)';
+            $html .= 'Reading ' . round($wordcount/225) .'min(s)</br>';
         }
-             $html .= '</p>';
+    $html .= '</p>';
         if(get_option('wcp_location','0') == '0'){
             return $html . $content;
         }
@@ -131,7 +136,7 @@ class WpWordCountPlugin{
     }
 
     function settingsMenu(){
-        add_options_page('word count settings','Word Count','manage_options','word-count-settings-page',array($this,'settingPage'));
+        add_options_page('word count settings',__('Word Count','wcdatalens'),'manage_options','word-count-settings-page',array($this,'settingPage'));
     
     }
     function settingPage(){?>
