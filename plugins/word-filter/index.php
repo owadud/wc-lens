@@ -30,13 +30,31 @@ if( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
         wp_enqueue_style('filterAdminCSS', plugin_dir_url(__FILE__). 'style.css');
     }
 
+    function handleForm(){
+       if(wp_verify_nonce($_POST['ourNonce'],'saveFilterWords') AND current_user_can('manage_options') ){
+        update_option('words_to_filter',sanitize_text_field($_POST['plugin_words_to_filter'])) ;?>
+        <div class="updated">
+            <p>Your Filter words has saved</p>
+        </div>
+       <?php }
+       else{ ?>
+        <div class="error">
+            <p>You don't have the permission.</p>
+        </div>
+       <?php }
+
+     }
+
     function wordMenu(){ ?>
        <div class="wrap">
         <h1>Word Filter</h1>
+        <?php if($_POST['justsumitted'] == "true") $this->handleForm() ?>
         <form method="POST">
+            <input type="hidden" name="justsumitted" value="true">
+            <?php wp_nonce_field('saveFilterWords','ourNonce') ?>
             <label for="plugin_words_to_filter"><p>Enter <strong>the words that </strong>you want to filter</p></label>
             <div class="wordfilter_flex">
-                <textarea name="plugin_words_to_filter" id="plugin_words_to_filter" placeholder="plugin, wordpress, theme"></textarea>
+                <textarea name="plugin_words_to_filter" id="plugin_words_to_filter" placeholder="plugin, wordpress, theme"><?php echo esc_textarea(get_option('words_to_filter')) ?></textarea>
             </div>
             <input type="submit" name="submit" id="submit" class="button button-primary" value="Submit">
         </form>
