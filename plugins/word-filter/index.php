@@ -15,6 +15,15 @@ if( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
  class WordFilter{
     function __construct(){
         add_action('admin_menu',array($this,'ourMenu'));
+        if(get_option('words_to_filter')){
+            add_filter('the_content',array($this,'filterlogic'));
+        }
+    }
+    function filterlogic($content){
+        $badwords = explode(',',get_option('words_to_filter'));
+        $badwordsTrim = array_map('trim',$badwords);
+        return str_ireplace($badwordsTrim,"###",$content);
+
     }
     function ourMenu(){
        $wordfilterAdminHook = add_menu_page('word To filter','word filter','manage_options','wordfilterpage',array($this, 'wordMenu'),plugin_dir_url(__FILE__) . 'custom.svg', 100);
@@ -48,7 +57,7 @@ if( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
     function wordMenu(){ ?>
        <div class="wrap">
         <h1>Word Filter</h1>
-        <?php if($_POST['justsumitted'] == "true") $this->handleForm() ?>
+        <?php if(isset($_POST['justsumitted']) == "true") $this->handleForm() ?>
         <form method="POST">
             <input type="hidden" name="justsumitted" value="true">
             <?php wp_nonce_field('saveFilterWords','ourNonce') ?>
