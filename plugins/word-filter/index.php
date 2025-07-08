@@ -18,11 +18,25 @@ if( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
         if(get_option('words_to_filter')){
             add_filter('the_content',array($this,'filterlogic'));
         }
+        add_action('admin_init',array($this,'ourSettings'));
+
+
     }
+    function ourSettings(){
+        add_settings_section('replacement-text-section',null,null,'word-filter-options');
+        register_setting('replacementFields','replacementText');
+        add_settings_field('replacement-text','Filtered Text',array($this,'replacementFieldHTML'),'word-filter-options','replacement-text-section');
+    }
+
+    function replacementFieldHTML(){ ?>
+        <input type="text" name='replacementText' value="<?php echo esc_attr(get_option('replacementText','***')) ?>">
+        <p>Please leave blank if don't want to replace</p>
+    <?php }
+
     function filterlogic($content){
         $badwords = explode(',',get_option('words_to_filter'));
         $badwordsTrim = array_map('trim',$badwords);
-        return str_ireplace($badwordsTrim,"###",$content);
+        return str_ireplace($badwordsTrim,esc_html(get_option('replacementText','#*#*')),$content);
 
     }
     function ourMenu(){
@@ -71,7 +85,17 @@ if( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
      <?php 
     }
     function wordOption(){ ?>
-        Filter option.
+        <div class="wrap">
+            <h1>Word Filter Option</h1>
+            <form action="options.php" method="POST">
+                <?php
+                settings_errors();
+                settings_fields('replacementFields');
+                do_settings_sections('word-filter-options');
+                submit_button();
+                ?>
+            </form>
+        </div>
         <?php
     }
  }
