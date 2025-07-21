@@ -94,22 +94,42 @@ wp.blocks.registerBlockType("ourplugin/are-you", {
   title: "Are you paying attention?",
   icon: "smiley",
   category: "common",
-  edit: function () {
+  attributes: {
+    skyColor: {
+      type: "string"
+    },
+    grassColor: {
+      type: "string"
+    }
+  },
+  edit: function (props) {
+    function updateColor(event) {
+      props.setAttributes({
+        skyColor: event.target.value
+      });
+    }
+    function updateGrass(event) {
+      props.setAttributes({
+        grassColor: event.target.value
+      });
+    }
     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", {
-        children: "This is paragraph"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", {
-        children: "This is From JS"
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+        type: "text",
+        placeholder: "skyColor",
+        value: props.attributes.skyColor,
+        onChange: updateColor
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+        type: "text",
+        placeholder: "grassColor",
+        value: props.attributes.grassColor,
+        onChange: updateGrass
       })]
     });
   },
-  save: function () {
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", {
-        children: "Front End"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h1", {
-        children: "This is H1"
-      })]
+  save: function (props) {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("p", {
+      children: ["The sky color is ", props.attributes.skyColor, " and Grass color is ", props.attributes.grassColor, "."]
     });
   }
 });
