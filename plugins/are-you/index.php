@@ -13,12 +13,23 @@ if( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 class AreYou{
     function __construct(){
-        add_action('enqueue_block_editor_assets',array($this,'adminAssets'));
+        add_action('init',array($this,'adminAssets'));
     }
 
     function adminAssets(){
-        wp_enqueue_script('ournewlocktype',plugin_dir_url(__FILE__) . 'build/index.js',array('wp-blocks','wp-element'));
+       wp_register_script('ournewblocktype', plugin_dir_url(__FILE__) . 'build/index.js', array('wp-blocks', 'wp-element','wp-editor'));
+    register_block_type('ourplugin/are-you', array(
+      'editor_script' => 'ournewblocktype',
+      'render_callback' => array($this, 'theHTML')
+    ));
     }
 
+    function theHTML($attributes) {
+    ob_start(); ?>
+    <h4>Today the sky is <?php echo esc_html($attributes['skyColor']) ?> and the grass is <?php echo esc_html($attributes['grassColor']) ?>!</h4>
+    <?php return ob_get_clean();
+  }
+
 }
+
 $areyou = new AreYou();
