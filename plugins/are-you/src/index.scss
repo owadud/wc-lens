@@ -1,0 +1,27 @@
+.paying-attention-edit-block{
+    padding: 20px;
+    border-radius: 2px;
+    border: 1px solid #fafafa;
+    background: hsla(241, 48%, 43%, 0.338);
+    
+    .Mark-as-correct{
+        color: #ffd700;
+        position: relative;
+        top: -3px;
+        transition: transform 0.3 ease-out ;
+        
+        &:hover{
+            transform: scale(1.25) rotate(12deg);
+            
+        }
+    }
+    .attention-delete{
+        color: red;
+        position: relative;
+        top: -5px;
+        &:hover{
+            color: #c20000!important;
+        }
+    }
+
+}

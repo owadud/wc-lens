@@ -1,12 +1,13 @@
-import {TextControl} from "@wordpress/components"
+import "./index.scss"
+import {TextControl, Flex, FlexBlock, FlexItem, Button,Icon} from "@wordpress/components"
+
 
 wp.blocks.registerBlockType("ourplugin/are-you",{
     title: "Are you paying attention?",
     icon:"smiley",
     category:"common",
     attributes:{
-    skyColor: {type: "string"},
-    grassColor: {type: "string"}
+    question:{type: "string"}
 
     },
     edit: EditComponent,
@@ -18,16 +19,32 @@ wp.blocks.registerBlockType("ourplugin/are-you",{
 })
 
  function EditComponent (props){
-        function updateColor(event){
-            props.setAttributes({skyColor: event.target.value})
-        }
-        function updateGrass(event){
-            props.setAttributes({grassColor: event.target.value})
+       
+        function updateQuestion(value){
+            props.setAttributes({question:value})
+
         }
 
         return (
-            <div>
-                <TextControl />
+            <div className="paying-attention-edit-block">
+                <TextControl label="Question:" value={props.attributes.question} onChange={updateQuestion} style={{fontSize: "20px"}}/>
+                <p style={{fontSize:"13px", margin:"20px 0 8px 0"}}>Answer:</p>
+                <Flex>
+                    <FlexBlock>
+                        <TextControl></TextControl>
+                    </FlexBlock>
+                    <FlexItem>
+                        <Button>
+                            <Icon className="Mark-as-correct" icon="star-empty"></Icon>
+                        </Button>
+                    </FlexItem>
+                    <FlexItem><Button isLink className="attention-delete">
+                        Delete
+                        </Button></FlexItem>
+                    
+                    </Flex>
+                    <Button isPrimary>Add another Answer</Button>
+                
             </div>
         )
 }
