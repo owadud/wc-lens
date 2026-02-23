@@ -29,7 +29,9 @@ class AreYou{
 
     function theHTML($attributes) {
     ob_start(); ?>
+    
     <h4>Today the sky is <?php echo esc_html($attributes['skyColor']) ?> and the grass is <?php echo esc_html($attributes['grassColor']) ?>!</h4>
+    
     <?php return ob_get_clean();
   }
 
