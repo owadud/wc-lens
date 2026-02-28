@@ -7,11 +7,11 @@ import {TextControl, Flex, FlexBlock, FlexItem, Button,Icon} from "@wordpress/co
         const results = wp.data.select("core/block-editor").getBlocks().filter(function(block){
             return block.name == "ourplugin/are-you" && block.attributes.correctAnswer == undefined; 
         })
-        if (results.length && locked == false){
+        if (results.length > 0 && locked == false){
             locked = true;
             wp.data.dispatch("core/editor").lockPostSaving("noanswer")
         }
-         if (!results.length && locked){
+         if (!results.length == 0 && locked){
             locked = false;
             wp.data.dispatch("core/editor").unlockPostSaving("noanswer")
         }

@@ -28,9 +28,16 @@ class AreYou{
     }
 
     function theHTML($attributes) {
+    
+    if(!is_admin()){
+      wp_enqueue_script( 'frontendAttention', plugin_dir_url( __FILE__ ).'build/frontend.js', array('wp-element') );
+       wp_enqueue_style( 'attentionFrontendStyle', plugin_dir_url( __FILE__ ). 'build/frontend.css');
+      
+    }
     ob_start(); ?>
     
-    <h4>Today the sky is <?php echo esc_html($attributes['skyColor']) ?> and the grass is <?php echo esc_html($attributes['grassColor']) ?>!</h4>
+    <div class="are-you-frontend">
+    </div>
     
     <?php return ob_get_clean();
   }
