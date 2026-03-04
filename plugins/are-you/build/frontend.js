@@ -2,47 +2,47 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/frontend.scss":
+/***/ "./src/frontend.scss"
 /*!***************************!*\
   !*** ./src/frontend.scss ***!
   \***************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 // extracted by mini-css-extract-plugin
 
 
-/***/ }),
+/***/ },
 
-/***/ "react":
+/***/ "react"
 /*!************************!*\
   !*** external "React" ***!
   \************************/
-/***/ ((module) => {
+(module) {
 
 module.exports = window["React"];
 
-/***/ }),
+/***/ },
 
-/***/ "react-dom":
+/***/ "react-dom"
 /*!***************************!*\
   !*** external "ReactDOM" ***!
   \***************************/
-/***/ ((module) => {
+(module) {
 
 module.exports = window["ReactDOM"];
 
-/***/ }),
+/***/ },
 
-/***/ "react/jsx-runtime":
+/***/ "react/jsx-runtime"
 /*!**********************************!*\
   !*** external "ReactJSXRuntime" ***!
   \**********************************/
-/***/ ((module) => {
+(module) {
 
 module.exports = window["ReactJSXRuntime"];
 
-/***/ })
+/***/ }
 
 /******/ 	});
 /************************************************************************/
@@ -64,6 +64,12 @@ module.exports = window["ReactJSXRuntime"];
 /******/ 		};
 /******/ 	
 /******/ 		// Execute the module function
+/******/ 		if (!(moduleId in __webpack_modules__)) {
+/******/ 			delete __webpack_module_cache__[moduleId];
+/******/ 			var e = new Error("Cannot find module '" + moduleId + "'");
+/******/ 			e.code = 'MODULE_NOT_FOUND';
+/******/ 			throw e;
+/******/ 		}
 /******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
 /******/ 	
 /******/ 		// Return the exports of the module
@@ -130,15 +136,44 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const divsToUpdate = document.querySelectorAll(".are-you-frontend");
+const divsToUpdate = document.querySelectorAll(".paying-attention-update-me");
 divsToUpdate.forEach(function (div) {
-  react_dom__WEBPACK_IMPORTED_MODULE_1___default().render(/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(Quiz, {}), div);
-  div.classList.remove("are-you-frontend");
+  // read any JSON-encoded props from the placeholder div's data attribute
+  let data = {};
+  try {
+    data = div.dataset.props ? JSON.parse(div.dataset.props) : {};
+  } catch (e) {
+    console.warn('could not parse props data', e);
+  }
+
+  // prefer the modern root API if the page's ReactDOM supports it;
+  // otherwise fall back to the classic render call so that the code
+  // works with WordPress installations that still ship React 17.
+  if (typeof (react_dom__WEBPACK_IMPORTED_MODULE_1___default().createRoot) === 'function') {
+    react_dom__WEBPACK_IMPORTED_MODULE_1___default().createRoot(div).render(/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(Quiz, {
+      ...data
+    }));
+  } else {
+    react_dom__WEBPACK_IMPORTED_MODULE_1___default().render(/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(Quiz, {
+      ...data
+    }), div);
+  }
+
+  // mark this element as handled so we don't try again later
+  div.classList.remove("paying-attention-update-me");
 });
-function Quiz() {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-    className: ".are-you-frontend",
-    children: "Hello from React"
+function Quiz(props) {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+    className: "paying-attention-frontend",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("p", {
+      children: [" ", props.question, " "]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("ul", {
+      children: props.answers.map(function (answer) {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
+          children: answer
+        });
+      })
+    })]
   });
 }
 })();
