@@ -1,7 +1,8 @@
 /*!******************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./src/frontend.scss ***!
   \******************************************************************************************************************************************************************************************************************************************/
-.paying-attention-update-me {
+.paying-attention-update-me,
+.paying-attention-frontend {
   background-color: #ebebeb;
   overflow: hidden;
   position: relative;
@@ -11,62 +12,75 @@
   border-radius: 4px;
   margin-bottom: 35px;
 }
-.paying-attention-update-me p {
+.paying-attention-update-me p,
+.paying-attention-frontend p {
   font-size: 1.55rem;
   margin: 0 0 15px 0 !important;
 }
-.paying-attention-update-me ul {
+.paying-attention-update-me ul,
+.paying-attention-frontend ul {
   margin: 0;
   padding: 0;
 }
 @media screen and (min-width: 767px) {
-  .paying-attention-update-me ul {
+  .paying-attention-update-me ul,
+  .paying-attention-frontend ul {
     margin: 0 0 0 -20px;
     display: flex;
   }
 }
-.paying-attention-update-me li {
+.paying-attention-update-me li,
+.paying-attention-frontend li {
   vertical-align: middle;
   font-size: 0.93rem;
   flex: 1;
   margin: 0 0 15px 0;
 }
 @media screen and (min-width: 767px) {
-  .paying-attention-update-me li {
+  .paying-attention-update-me li,
+  .paying-attention-frontend li {
     margin: 0 0 0 20px;
   }
 }
-.paying-attention-update-me li {
-  padding: 0;
+.paying-attention-update-me li,
+.paying-attention-frontend li {
+  padding: 10px;
   list-style: none;
   cursor: pointer;
-  padding: 10px;
   border-radius: 4px;
   background-color: rgba(255, 255, 255, 0.7);
 }
-.paying-attention-update-me li:hover {
+.paying-attention-update-me li:hover,
+.paying-attention-frontend li:hover {
   background-color: rgba(255, 255, 255, 0.95);
 }
-.paying-attention-update-me li svg {
+.paying-attention-update-me li svg,
+.paying-attention-frontend li svg {
   fill: rgb(0, 158, 47);
   margin-left: 5px;
   margin-bottom: -5px;
 }
-.paying-attention-update-me .no-click {
+.paying-attention-update-me li.no-click,
+.paying-attention-frontend li.no-click {
   cursor: auto;
 }
-.paying-attention-update-me .no-click:hover {
+.paying-attention-update-me li.no-click:hover,
+.paying-attention-frontend li.no-click:hover {
   background-color: rgba(255, 255, 255, 0.7);
 }
-.paying-attention-update-me .fade-incorrect {
+.paying-attention-update-me li.fade-incorrect,
+.paying-attention-frontend li.fade-incorrect {
   cursor: auto;
   opacity: 0.25;
 }
-.paying-attention-update-me .fade-incorrect svg {
+.paying-attention-update-me li.fade-incorrect svg,
+.paying-attention-frontend li.fade-incorrect svg {
   fill: rgb(235, 0, 0);
 }
 .paying-attention-update-me .correct-message,
-.paying-attention-update-me .incorrect-message {
+.paying-attention-update-me .incorrect-message,
+.paying-attention-frontend .correct-message,
+.paying-attention-frontend .incorrect-message {
   margin: auto;
   display: flex;
   justify-content: center;
@@ -84,18 +98,25 @@
   transform-origin: 50% 50%;
 }
 .paying-attention-update-me .correct-message--visible,
-.paying-attention-update-me .incorrect-message--visible {
+.paying-attention-update-me .incorrect-message--visible,
+.paying-attention-frontend .correct-message--visible,
+.paying-attention-frontend .incorrect-message--visible {
   animation: 2.6s showModal;
 }
 .paying-attention-update-me .correct-message svg,
-.paying-attention-update-me .incorrect-message svg {
+.paying-attention-update-me .incorrect-message svg,
+.paying-attention-frontend .correct-message svg,
+.paying-attention-frontend .incorrect-message svg {
   margin-left: 12px;
 }
 .paying-attention-update-me .correct-message p,
-.paying-attention-update-me .incorrect-message p {
+.paying-attention-update-me .incorrect-message p,
+.paying-attention-frontend .correct-message p,
+.paying-attention-frontend .incorrect-message p {
   margin: 0 !important;
 }
-.paying-attention-update-me .incorrect-message {
+.paying-attention-update-me .incorrect-message,
+.paying-attention-frontend .incorrect-message {
   background-color: rgb(224, 176, 176);
 }
 @keyframes showModal {

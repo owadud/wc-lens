@@ -14,6 +14,39 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ },
 
+/***/ "./node_modules/react-dom/client.js"
+/*!******************************************!*\
+  !*** ./node_modules/react-dom/client.js ***!
+  \******************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+
+var m = __webpack_require__(/*! react-dom */ "react-dom");
+if (false) // removed by dead control flow
+{} else {
+  var i = m.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+  exports.createRoot = function(c, o) {
+    i.usingClientEntryPoint = true;
+    try {
+      return m.createRoot(c, o);
+    } finally {
+      i.usingClientEntryPoint = false;
+    }
+  };
+  exports.hydrateRoot = function(c, h, o) {
+    i.usingClientEntryPoint = true;
+    try {
+      return m.hydrateRoot(c, h, o);
+    } finally {
+      i.usingClientEntryPoint = false;
+    }
+  };
+}
+
+
+/***/ },
+
 /***/ "react"
 /*!************************!*\
   !*** external "React" ***!
@@ -31,16 +64,6 @@ module.exports = window["React"];
 (module) {
 
 module.exports = window["ReactDOM"];
-
-/***/ },
-
-/***/ "react/jsx-runtime"
-/*!**********************************!*\
-  !*** external "ReactJSXRuntime" ***!
-  \**********************************/
-(module) {
-
-module.exports = window["ReactJSXRuntime"];
 
 /***/ }
 
@@ -127,54 +150,89 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "react-dom");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom/client */ "./node_modules/react-dom/client.js");
 /* harmony import */ var _frontend_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./frontend.scss */ "./src/frontend.scss");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__);
-
 
 
 
 const divsToUpdate = document.querySelectorAll(".paying-attention-update-me");
+console.log('Found divs to update:', divsToUpdate.length);
 divsToUpdate.forEach(function (div) {
-  // read any JSON-encoded props from the placeholder div's data attribute
-  let data = {};
-  try {
-    data = div.dataset.props ? JSON.parse(div.dataset.props) : {};
-  } catch (e) {
-    console.warn('could not parse props data', e);
-  }
-
-  // prefer the modern root API if the page's ReactDOM supports it;
-  // otherwise fall back to the classic render call so that the code
-  // works with WordPress installations that still ship React 17.
-  if (typeof (react_dom__WEBPACK_IMPORTED_MODULE_1___default().createRoot) === 'function') {
-    react_dom__WEBPACK_IMPORTED_MODULE_1___default().createRoot(div).render(/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(Quiz, {
-      ...data
-    }));
+  const preElement = div.querySelector("pre");
+  if (preElement) {
+    try {
+      const data = JSON.parse(preElement.innerHTML);
+      console.log('Parsed data:', data);
+      // Clear the div and add the frontend class for styling
+      div.innerHTML = "";
+      div.classList.add("paying-attention-frontend");
+      const root = (0,react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot)(div);
+      root.render(react__WEBPACK_IMPORTED_MODULE_0___default().createElement(Quiz, data));
+    } catch (error) {
+      console.error('Error parsing JSON:', error, 'HTML content:', preElement.innerHTML);
+    }
   } else {
-    react_dom__WEBPACK_IMPORTED_MODULE_1___default().render(/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(Quiz, {
-      ...data
-    }), div);
+    console.error("No <pre> element found in div with class 'paying-attention-update-me'");
   }
-
-  // mark this element as handled so we don't try again later
-  div.classList.remove("paying-attention-update-me");
 });
 function Quiz(props) {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+  const [isCorrect, setIsCorrect] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(undefined);
+  const [isCorrectDelayed, setIsCorrectDelayed] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(undefined);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (isCorrect === false) {
+      setTimeout(() => {
+        setIsCorrect(undefined);
+      }, 2600);
+    }
+    if (isCorrect === true) {
+      setTimeout(() => {
+        setIsCorrectDelayed(true);
+      }, 1000);
+    }
+  }, [isCorrect]);
+  function handleAnswer(index) {
+    if (index === props.correctAnswer) {
+      setIsCorrect(true);
+    } else {
+      setIsCorrect(false);
+    }
+  }
+  if (!props.question || !Array.isArray(props.answers) || props.answers.length === 0) {
+    return react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, "No quiz data available");
+  }
+  return react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "paying-attention-frontend",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("p", {
-      children: [" ", props.question, " "]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("ul", {
-      children: props.answers.map(function (answer) {
-        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
-          children: answer
-        });
-      })
-    })]
-  });
+    style: {
+      backgroundColor: props?.bgColor || ''
+    }
+  }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, props.question), react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", null, props.answers.map((answer, index) => {
+    const liClass = (isCorrectDelayed === true && index === props.correctAnswer ? "no-click" : "") + (isCorrectDelayed === true && index !== props.correctAnswer ? " fade-incorrect" : "");
+    return react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", {
+      key: index,
+      className: liClass,
+      onClick: isCorrect === true ? undefined : () => handleAnswer(index)
+    }, isCorrectDelayed === true && index === props.correctAnswer ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement("svg", {
+      xmlns: "http://www.w3.org/2000/svg",
+      width: "20",
+      height: "20",
+      className: "bi bi-check",
+      viewBox: "0 0 16 16"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement("path", {
+      d: "M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"
+    })) : null, isCorrectDelayed === true && index !== props.correctAnswer ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement("svg", {
+      xmlns: "http://www.w3.org/2000/svg",
+      width: "20",
+      height: "20",
+      className: "bi bi-x",
+      viewBox: "0 0 16 16"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement("path", {
+      d: "M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
+    })) : null, answer);
+  })), react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "correct-message" + (isCorrect === true ? " correct-message--visible" : "")
+  }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, "That is correct!")), react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "incorrect-message" + (isCorrect === false ? " correct-message--visible" : "")
+  }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, "Sorry, try again.")));
 }
 })();
 
