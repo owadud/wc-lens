@@ -31,6 +31,14 @@ wp.blocks.registerBlockType("ourplugin/are-you",{
     correctAnswer:{type: "number", default: undefined},
     bgColor: {type:"string",default:"#EBEBEB"}
     },
+    example: {
+    attributes: {
+    question:"which year this is?",
+    answers:['2020','2024','2026','2025'],
+    correctAnswer:3,
+    bgColor: "#CFE8F1"
+    }
+    },
     edit: EditComponent,
     
    

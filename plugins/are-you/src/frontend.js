@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react"
 import { createRoot } from "react-dom/client"
 import "./frontend.scss"
 
-const divsToUpdate = document.querySelectorAll(".paying-attention-update-me")
+
+document.addEventListener ("DOMContentLoaded", function (){
+  const divsToUpdate = document.querySelectorAll(".paying-attention-update-me")
 
 console.log('Found divs to update:', divsToUpdate.length)
 
@@ -127,3 +129,5 @@ function Quiz(props) {
     )
   )
 }
+
+})
